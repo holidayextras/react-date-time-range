@@ -18,6 +18,9 @@ var DateTimeRange = React.createClass({
     };
   },
 
+  // Could this be made smarter? ie, detect components nested inside a <div>
+  // inside this component, accept components based on an interface rather
+  // than being of a certain type?
   identifyStartAndEndDateChildComponents: function() {
     var rangeStartComponent, rangeEndComponent;
 
@@ -54,6 +57,14 @@ var DateTimeRange = React.createClass({
   },
 
   earliestDate: function(dateOne, dateTwo) {
+    if (!dateOne) {
+      return dateTwo;
+    }
+
+    if (!dateTwo) {
+      return dateOne;
+    }
+
     return dateOne > dateTwo ? dateOne : dateTwo;
   },
 

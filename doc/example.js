@@ -8,12 +8,6 @@ var Example = React.createClass({
   getInitialState: function() {
     return {
       firstRange: {
-        // With no end, the end will be defaulted x days in the future.
-        // If the user picks an end date, the end will only be moved
-        // if it's no longer valid given the start... ??? ..?
-        // And we can push the start back up into shared state at the engine level
-        // if needed.
-        // Remember to delete all these comments talking about usage specifics
         start: new Date(),
         duration: 8
       },
@@ -54,6 +48,10 @@ var Example = React.createClass({
           <DateTimeGroup />
           <DateTimeGroup />
         </DateTimeRange>
+        <ul>
+          <li>an "end" prop is not passed in, so the end date will automatically fast-forward to (start date + duration) days when the start date is changed</li>
+          <li>selecting an end date will set the "end" prop, after which it remains static</li>
+        </ul>
 
         <h2>Overriding settings</h2>
         <DateTimeRange start={this.state.secondRange.start} end={this.state.secondRange.end} onChange={this.changeSecondExample}>
