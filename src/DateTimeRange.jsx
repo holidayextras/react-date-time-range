@@ -14,7 +14,8 @@ var DateTimeRange = React.createClass({
 
   getDefaultProps: function() {
     return {
-      duration: 10
+      duration: 10,
+      start: new Date()
     };
   },
 
@@ -57,10 +58,6 @@ var DateTimeRange = React.createClass({
   },
 
   earliestDate: function(dateOne, dateTwo) {
-    if (!dateOne) {
-      return dateTwo;
-    }
-
     if (!dateTwo) {
       return dateOne;
     }
