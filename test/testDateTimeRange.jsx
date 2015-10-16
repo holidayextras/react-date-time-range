@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
 
@@ -53,7 +55,7 @@ describe('DateTimeRange', function() {
     context('when given less than two child DateTimeGroup elements', function() {
       it('throws an exception', function() {
         expect(function() {
-          var renderOutput = shallowRender(<DateTimeRange><div /></DateTimeRange>);
+          shallowRender(<DateTimeRange><div /></DateTimeRange>);
         }).to.throw(Error);
       });
     });
@@ -61,7 +63,7 @@ describe('DateTimeRange', function() {
     context('when given more than two child DateTimeGroup elements', function() {
       it('throws an exception', function() {
         expect(function() {
-          var renderOutput = shallowRender(
+          shallowRender(
             <DateTimeRange>
               <DateTimeGroup />
               <DateTimeGroup />
@@ -199,7 +201,7 @@ describe('DateTimeRange', function() {
         );
 
         var components = TestUtils.scryRenderedComponentsWithType(doc, DateTimeGroup);
-      
+
         changeStartDate = components[0].props.onChange;
         changeEndDate = components[1].props.onChange;
       });
@@ -234,7 +236,7 @@ describe('DateTimeRange', function() {
         );
 
         var components = TestUtils.scryRenderedComponentsWithType(doc, DateTimeGroup);
-      
+
         changeStartDate = components[0].props.onChange;
         changeEndDate = components[1].props.onChange;
       });
