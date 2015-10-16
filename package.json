@@ -1,0 +1,42 @@
+{
+  "name": "react-date-time-range",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc",
+    "test": "test"
+  },
+  "scripts": {
+    "ci": "npm run lint && npm run coverage",
+    "coverage": "istanbul cover _mocha -- --compilers js:babel/register --require react-tests-globals-setup test/test* && istanbul check-coverage",
+    "prepublish": "mkdir -p dist && babel src/DateTimeRange.jsx > dist/DateTimeRange.js",
+    "prestart": "ulimit -n 9999",
+    "start": "watchify -t babelify -t brfs doc/example.js -o doc/example-built -v",
+    "test": "mocha --require react-tests-globals-setup --compilers js:babel/register test/test*",
+    "lint": "make-up src test doc"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "brfs": "^1.4.1",
+    "insert-css": "^0.2.0",
+    "react": "^0.13.0",
+    "react-bootstrap": "^0.26.1",
+    "react-date-time-group": "shackpank/react-date-time-group",
+    "react-dom": "^0.14.0"
+  },
+  "devDependencies": {
+    "babel": "^5.8.23",
+    "babelify": "^6.3.0",
+    "browserify": "^11.2.0",
+    "chai": "^3.3.0",
+    "istanbul": "^0.3.22",
+    "make-up": "^5.3.1",
+    "mocha": "^2.3.3",
+    "react-shallow-render": "^1.0.1",
+    "react-tests-globals-setup": "^1.0.0",
+    "sinon": "^1.17.1",
+    "watchify": "^3.4.0"
+  }
+}
