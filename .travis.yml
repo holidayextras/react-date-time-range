@@ -3,6 +3,7 @@ sudo: false
 install:
   - npm install npm@2
   - ./node_modules/.bin/npm install
+  - cd node_modules/react-date-time-group && npm run prepublish && cd -
 node_js:
   - "0.12"
   - "0.10"
