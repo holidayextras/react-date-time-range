@@ -27,7 +27,7 @@ var DateTimeRange = React.createClass({
     console.log('children', React.Children);
     React.Children.forEach(this.props.children, function(child) {
       console.log('child', child);
-
+      console.log('child.type', child.type);
       if (child.type === DateTimeGroup) {
         if (!rangeStartComponent) {
           rangeStartComponent = child;
