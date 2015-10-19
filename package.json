@@ -2,7 +2,7 @@
   "name": "react-date-time-range",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/DateTimeRange.js",
   "directories": {
     "doc": "doc",
     "test": "test"
