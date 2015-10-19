@@ -24,8 +24,10 @@ var DateTimeRange = React.createClass({
   // than being of a certain type?
   identifyStartAndEndDateChildComponents: function() {
     var rangeStartComponent, rangeEndComponent;
-
+    console.log('children', React.Children);
     React.Children.forEach(this.props.children, function(child) {
+      console.log('child', child);
+
       if (child.type === DateTimeGroup) {
         if (!rangeStartComponent) {
           rangeStartComponent = child;
@@ -42,7 +44,7 @@ var DateTimeRange = React.createClass({
     });
 
     if (!rangeStartComponent || !rangeEndComponent) {
-      throw new Error('Expected exactly two DateTimeGroup child components of DateTimeRange, but got less');
+      throw new Error('Expected igig exactly two DateTimeGroup child components of DateTimeRange, but got less');
     }
 
     return {
