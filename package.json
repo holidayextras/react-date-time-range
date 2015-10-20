@@ -23,7 +23,7 @@
     "insert-css": "^0.2.0",
     "react": "^0.13.0",
     "react-bootstrap": "^0.26.1",
-    "react-date-time-group": "shackpank/react-date-time-group",
+    "react-date-time-group": "cameronviner/react-date-time-group",
     "react-dom": "^0.14.0"
   },
   "devDependencies": {
