@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react');
-var DateTimeGroup = require('react-date-time-group');
 
 var DateTimeRange = React.createClass({
   propTypes: {
