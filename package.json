@@ -10,7 +10,7 @@
   "scripts": {
     "ci": "npm run lint && npm run coverage",
     "coverage": "istanbul cover _mocha -- --compilers js:babel/register --require react-tests-globals-setup test/test* && istanbul check-coverage",
-    "prepublish": "mkdir -p dist && babel src/DateTimeRange.jsx > dist/DateTimeRange.js",
+    "prepublish": "mkdir -p dist && node_modules/.bin/babel src/DateTimeRange.jsx > dist/DateTimeRange.js",
     "prestart": "ulimit -n 9999",
     "start": "node_modules/.bin/parallelshell 'watchify -t babelify -t brfs doc/example.js -o doc/example-built -v' 'node_modules/.bin/serve --port 3000 doc/'",
     "test": "mocha test/test*",
