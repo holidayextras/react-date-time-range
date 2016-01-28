@@ -10,18 +10,6 @@ var sinon = require('sinon');
 
 var { shallow, mount } = require('enzyme');
 
-// The return value of React.Children.map doesn't appear to be an array...
-// Possibly a bug, possibly we need React.Children.toArray from React 0.14
-// var _convertChildPropsToArray = function(childrenProp) {
-//   var children = [];
-//
-//   React.Children.forEach(childrenProp, function(child) {
-//     children.push(child);
-//   });
-//
-//   return children;
-// };
-
 describe('DateTimeRange', function() {
   var clock, DateTimeRange, DateTimeGroup;
 
@@ -81,11 +69,7 @@ describe('DateTimeRange', function() {
     });
 
     context('when given exactly two child DateTimeGroup elements', function() {
-      // var startDate = new Date(2015, 5, 6);
-      // var endDate = new Date(2015, 5, 20);
-      // var children;
       var dateTimeRange;
-
       context('and an end date', function() {
         var props;
         beforeEach(function() {
@@ -100,8 +84,6 @@ describe('DateTimeRange', function() {
               <DateTimeGroup />
             </DateTimeRange>
           );
-
-          // children = _convertChildPropsToArray(renderOutput.props.children);
         });
 
         it('attaches change listeners to the child elements', function() {
@@ -121,7 +103,6 @@ describe('DateTimeRange', function() {
 
       context('and a duration', function() {
         var props;
-        var dateTimeRange;
         beforeEach(function() {
           props = {
             start: new Date(2015, 5, 6),
@@ -159,11 +140,10 @@ describe('DateTimeRange', function() {
       });
 
       context('and an end date, but no start date', function() {
-        var dateTimeRange;
         var props;
         beforeEach(function() {
           props = {
-            end: new Date(2015, 5, 20),
+            end: new Date(2015, 5, 20)
           };
           dateTimeRange = mount(
             <DateTimeRange {...props}>
@@ -171,8 +151,6 @@ describe('DateTimeRange', function() {
               <DateTimeGroup />
             </DateTimeRange>
           );
-
-          // children = _convertChildPropsToArray(renderOutput.props.children);
         });
 
         it('constrains the end date to be after the current (stubbed) day', function() {
@@ -181,7 +159,6 @@ describe('DateTimeRange', function() {
       });
 
       context('and an end date, where the child has a start date before the start date', function() {
-        var dateTimeRange;
         var props;
         beforeEach(function() {
           props = {
@@ -203,7 +180,6 @@ describe('DateTimeRange', function() {
       });
 
       context('and an end date, where the child has a start date after the start date', function() {
-        var dateTimeRange;
         var props;
         beforeEach(function() {
           props = {
