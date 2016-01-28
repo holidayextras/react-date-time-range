@@ -1,24 +1,26 @@
 'use strict';
 
-var React = require('react/addons');
-var TestUtils = React.addons.TestUtils;
+var React = require('react');
+var TestUtils = require('react-addons-test-utils');
 
-var expect = require('chai').expect;
+var expect = require('chai')
+.use(require('dirty-chai')).expect;
+
 var sinon = require('sinon');
 
-var shallowRender = require('react-shallow-render');
+var { shallow, mount } = require('enzyme');
 
 // The return value of React.Children.map doesn't appear to be an array...
 // Possibly a bug, possibly we need React.Children.toArray from React 0.14
-var _convertChildPropsToArray = function(childrenProp) {
-  var children = [];
-
-  React.Children.forEach(childrenProp, function(child) {
-    children.push(child);
-  });
-
-  return children;
-};
+// var _convertChildPropsToArray = function(childrenProp) {
+//   var children = [];
+//
+//   React.Children.forEach(childrenProp, function(child) {
+//     children.push(child);
+//   });
+//
+//   return children;
+// };
 
 describe('DateTimeRange', function() {
   var clock, DateTimeRange, DateTimeGroup;
@@ -55,7 +57,11 @@ describe('DateTimeRange', function() {
     context('when given less than two child DateTimeGroup elements', function() {
       it('throws an exception', function() {
         expect(function() {
-          shallowRender(<DateTimeRange><div /></DateTimeRange>);
+          shallow(
+            <DateTimeRange>
+              <DateTimeGroup/>
+            </DateTimeRange>
+          );
         }).to.throw(Error);
       });
     });
@@ -63,7 +69,7 @@ describe('DateTimeRange', function() {
     context('when given more than two child DateTimeGroup elements', function() {
       it('throws an exception', function() {
         expect(function() {
-          shallowRender(
+          shallow(
             <DateTimeRange>
               <DateTimeGroup />
               <DateTimeGroup />
@@ -75,113 +81,146 @@ describe('DateTimeRange', function() {
     });
 
     context('when given exactly two child DateTimeGroup elements', function() {
-      var startDate = new Date(2015, 5, 6);
-      var endDate = new Date(2015, 5, 20);
-      var children;
+      // var startDate = new Date(2015, 5, 6);
+      // var endDate = new Date(2015, 5, 20);
+      // var children;
+      var dateTimeRange;
 
       context('and an end date', function() {
+        var props;
         beforeEach(function() {
-          var renderOutput = shallowRender(
-            <DateTimeRange start={startDate} end={endDate}>
+          props = {
+            start: new Date(2015, 5, 6),
+            end: new Date(2015, 5, 20)
+          };
+
+          dateTimeRange = mount(
+            <DateTimeRange {...props}>
               <DateTimeGroup />
               <DateTimeGroup />
             </DateTimeRange>
           );
 
-          children = _convertChildPropsToArray(renderOutput.props.children);
+          // children = _convertChildPropsToArray(renderOutput.props.children);
         });
 
         it('attaches change listeners to the child elements', function() {
-          expect(children[0].props.onChange).to.be.a('function');
-          expect(children[1].props.onChange).to.be.a('function');
+          expect(dateTimeRange.find(DateTimeGroup).at(0).props().onChange).to.be.a('function');
+          expect(dateTimeRange.find(DateTimeGroup).at(1).props().onChange).to.be.a('function');
         });
 
         it('passes values to the child elements', function() {
-          expect(children[0].props.value).to.deep.equal(startDate);
-          expect(children[1].props.value).to.deep.equal(endDate);
+          expect(dateTimeRange.find(DateTimeGroup).at(0).props().value).to.deep.equal(props.start);
+          expect(dateTimeRange.find(DateTimeGroup).at(1).props().value).to.deep.equal(props.end);
         });
 
         it('constrains the end date to be after the start date', function() {
-          expect(children[1].props.dateStart).to.deep.equal(startDate);
+          expect(dateTimeRange.find(DateTimeGroup).at(1).props().value).to.deep.equal(props.end);
         });
       });
 
       context('and a duration', function() {
+        var props;
+        var dateTimeRange;
         beforeEach(function() {
-          var renderOutput = shallowRender(
-            <DateTimeRange start={startDate} duration={4}>
+          props = {
+            start: new Date(2015, 5, 6),
+            end: new Date(2015, 5, 20),
+            duration: 6
+          };
+
+          dateTimeRange = mount(
+            <DateTimeRange {...props}>
               <DateTimeGroup />
               <h2>end date</h2>
               <DateTimeGroup />
             </DateTimeRange>
-          );
 
-          children = _convertChildPropsToArray(renderOutput.props.children);
+          );
         });
 
         it('attaches change listeners to the child elements', function() {
-          expect(children[0].props.onChange).to.be.a('function');
-          expect(children[2].props.onChange).to.be.a('function');
+          expect(dateTimeRange.find(DateTimeGroup).at(0).props().onChange).to.be.a('function');
+          expect(dateTimeRange.find(DateTimeGroup).at(1).props().onChange).to.be.a('function');
         });
 
         it('passes values to the child elements', function() {
-          expect(children[0].props.value).to.deep.equal(startDate);
-          expect(children[2].props.value).to.deep.equal(new Date(2015, 5, 10));
+          expect(dateTimeRange.find(DateTimeGroup).at(0).props().value).to.deep.equal(props.start);
+          expect(dateTimeRange.find(DateTimeGroup).at(1).props().value).to.deep.equal(props.end);
         });
 
         it('constrains the end date to be after the start date', function() {
-          expect(children[2].props.dateStart).to.deep.equal(startDate);
+          expect(dateTimeRange.find(DateTimeGroup).at(0).props().value).to.deep.equal(props.start);
+        });
+
+        it('the duration we have passed in match what we pass the our shallow component', function() {
+          expect(dateTimeRange.at(0).props().duration).to.equal(props.duration);
         });
       });
 
       context('and an end date, but no start date', function() {
+        var dateTimeRange;
+        var props;
         beforeEach(function() {
-          var renderOutput = shallowRender(
-            <DateTimeRange end={endDate}>
+          props = {
+            end: new Date(2015, 5, 20),
+          };
+          dateTimeRange = mount(
+            <DateTimeRange {...props}>
               <DateTimeGroup />
               <DateTimeGroup />
             </DateTimeRange>
           );
 
-          children = _convertChildPropsToArray(renderOutput.props.children);
+          // children = _convertChildPropsToArray(renderOutput.props.children);
         });
 
         it('constrains the end date to be after the current (stubbed) day', function() {
-          expect(children[1].props.dateStart).to.deep.equal(new Date(2015, 5, 6));
+          expect(dateTimeRange.find(DateTimeGroup).at(1).props().dateStart).to.deep.equal(new Date(2015, 5, 6));
         });
       });
 
       context('and an end date, where the child has a start date before the start date', function() {
+        var dateTimeRange;
+        var props;
         beforeEach(function() {
-          var renderOutput = shallowRender(
-            <DateTimeRange start={startDate} end={endDate}>
+          props = {
+            start: new Date(2015, 5, 6),
+            end: new Date(2015, 5, 20)
+          };
+
+          dateTimeRange = mount(
+            <DateTimeRange {...props}>
               <DateTimeGroup />
               <DateTimeGroup dateStart={new Date(2015, 5, 3)} />
             </DateTimeRange>
           );
-
-          children = _convertChildPropsToArray(renderOutput.props.children);
         });
 
         it('constrains the end date to be after the parent start date', function() {
-          expect(children[1].props.dateStart).to.deep.equal(startDate);
+          expect(dateTimeRange.find(DateTimeGroup).at(1).props().dateStart).to.deep.equal(props.start);
         });
       });
 
       context('and an end date, where the child has a start date after the start date', function() {
+        var dateTimeRange;
+        var props;
         beforeEach(function() {
-          var renderOutput = shallowRender(
-            <DateTimeRange start={startDate} end={endDate}>
+          props = {
+            start: new Date(2015, 5, 6),
+            end: new Date(2015, 5, 20)
+          };
+
+          dateTimeRange = mount(
+            <DateTimeRange {...props}>
               <DateTimeGroup />
               <DateTimeGroup dateStart={new Date(2015, 5, 10)} />
             </DateTimeRange>
           );
-
-          children = _convertChildPropsToArray(renderOutput.props.children);
         });
 
         it('constrains the end date to be after the child start date', function() {
-          expect(children[1].props.dateStart).to.deep.equal(new Date(2015, 5, 10));
+          expect(dateTimeRange.find(DateTimeGroup).at(1).props().dateStart).to.deep.equal(new Date(2015, 5, 10));
         });
       });
     });

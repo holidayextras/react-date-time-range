@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 var DateTimeRange = require('../src/DateTimeRange.jsx');
 var DateTimeGroup = require('react-date-time-group');
 
@@ -81,4 +82,4 @@ var Example = React.createClass({
   }
 });
 
-React.render(<Example />, document.getElementById('container'));
+ReactDOM.render(<Example />, document.getElementById('container'));
