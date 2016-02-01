@@ -24,7 +24,7 @@
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
     "react-bootstrap": "^0.28.2",
-    "react-date-time-group": "holidayextras/react-date-time-group#PROD-1247",
+    "react-date-time-group": "^2.0.0",
     "serve": "^1.4.0"
   },
   "devDependencies": {
