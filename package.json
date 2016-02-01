@@ -1,6 +1,6 @@
 {
   "name": "react-date-time-range",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "",
   "main": "dist/DateTimeRange.js",
   "directories": {
@@ -21,9 +21,10 @@
   "dependencies": {
     "brfs": "~1.4.1",
     "insert-css": "~0.2.0",
-    "react": "^0.13.3",
-    "react-bootstrap": "~0.26.1",
-    "react-date-time-group": "~1.0.0",
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2",
+    "react-bootstrap": "^0.28.2",
+    "react-date-time-group": "^2.0.0",
     "serve": "^1.4.0"
   },
   "devDependencies": {
@@ -31,10 +32,14 @@
     "babelify": "~6.3.0",
     "browserify": "~11.2.0",
     "chai": "~3.3.0",
+    "dirty-chai": "^1.2.2",
+    "enzyme": "^1.4.1",
+    "jsdom": "^3.1.2",
     "istanbul": "~0.3.22",
-    "make-up": "~5.3.1",
-    "mocha": "~2.3.3",
+    "make-up": "^7.1.0",
+    "mocha": "^2.3.3",
     "parallelshell": "^2.0.0",
+    "react-addons-test-utils": "^0.14.6",
     "react-shallow-render": "~1.0.1",
     "react-tests-globals-setup": "~1.0.0",
     "sinon": "~1.17.1",
