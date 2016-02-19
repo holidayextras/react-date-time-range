@@ -49,8 +49,8 @@ var DateTimeRange = React.createClass({
     };
   },
 
-  assumedEndDate: function() {
-    var endDate = new Date(this.props.start);
+  assumedEndDate: function(newDate) {
+    var endDate = new Date(newDate || this.props.start);
     endDate.setDate(endDate.getDate() + this.props.duration);
     return endDate;
   },
@@ -71,7 +71,7 @@ var DateTimeRange = React.createClass({
       if (child === startAndEnd.start) {
         return React.cloneElement(child, {
           onChange: function(newDate) {
-            self.props.onChange(newDate, self.props.end);
+            self.props.onChange(newDate, self.assumedEndDate(newDate));
           },
           value: self.props.start
         });
