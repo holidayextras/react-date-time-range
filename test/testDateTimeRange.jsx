@@ -239,12 +239,18 @@ describe('DateTimeRange', function() {
     });
 
     context('with an end date', function() {
-      var handler, changeStartDate, changeEndDate;
+      var handler, changeStartDate, changeEndDate, props;
 
       beforeEach(function() {
         handler = sinon.stub();
+        props = {
+          onChange: handler,
+          start:new Date(2015, 5, 6),
+          end: new Date(2015, 5, 21, 16, 30, 0, 0)
+        };
+
         var doc = TestUtils.renderIntoDocument(
-          <DateTimeRange onChange={handler} start={new Date(2015, 5, 6)} end={new Date(2015, 5, 20)}>
+          <DateTimeRange {...props}>
             <DateTimeGroup />
             <DateTimeGroup />
           </DateTimeRange>
@@ -260,7 +266,7 @@ describe('DateTimeRange', function() {
         it('emits up the changed start date and the passed in end date', function() {
           changeStartDate(new Date(2015, 5, 11, 16, 30, 0, 0));
 
-          sinon.assert.calledWith(handler, new Date(2015, 5, 11, 16, 30, 0, 0), new Date(2015, 5, 21, 16, 30, 0));
+          sinon.assert.calledWith(handler, new Date(2015, 5, 11, 16, 30, 0, 0), props.end);
         });
       });
 
@@ -268,7 +274,7 @@ describe('DateTimeRange', function() {
         it('emits up the passed in start date and the changed end date', function() {
           changeEndDate(new Date(2015, 5, 22, 16, 30, 0, 0));
 
-          sinon.assert.calledWith(handler, new Date(2015, 5, 6), new Date(2015, 5, 22, 16, 30, 0, 0));
+          sinon.assert.calledWith(handler, props.start, new Date(2015, 5, 22, 16, 30, 0, 0));
         });
       });
     });
