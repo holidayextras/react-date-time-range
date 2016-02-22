@@ -245,7 +245,7 @@ describe('DateTimeRange', function() {
         handler = sinon.stub();
         props = {
           onChange: handler,
-          start:new Date(2015, 5, 6),
+          start: new Date(2015, 5, 6),
           end: new Date(2015, 5, 21, 16, 30, 0, 0)
         };
 
