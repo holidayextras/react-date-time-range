@@ -20,8 +20,7 @@ var DateTimeRange = React.createClass({
 
   getInitialState: function() {
     return {
-      overrideEndDate: !(this.props.end === undefined),
-      endDateHasChanged: false
+      endDateShouldMoveAutomatically: (this.props.end === undefined)
     };
   },
 
@@ -58,7 +57,7 @@ var DateTimeRange = React.createClass({
 
   getEndDate: function(startDate) {
     startDate = startDate || this.props.start;
-    if ((!this.state.overrideEndDate && !this.state.endDateHasChanged) || startDate > this.props.end) {
+    if (this.state.endDateShouldMoveAutomatically || startDate > this.props.end) {
       return this.assumedEndDate(startDate);
     }
     return this.props.end;
@@ -97,7 +96,7 @@ var DateTimeRange = React.createClass({
           onChange: function(newDate) {
             self.props.onChange(self.props.start, newDate);
             self.setState({
-              endDateHasChanged: true
+              endDateShouldMoveAutomatically: false
             });
           },
           value: self.getEndDate(),
