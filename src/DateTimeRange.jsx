@@ -20,9 +20,9 @@ var DateTimeRange = React.createClass({
 
   getInitialState: function() {
     return {
-      overrideEndDate: (this.props.end === undefined ? false : true),
+      overrideEndDate: !(this.props.end === undefined),
       endDateHasChanged: false
-    }
+    };
   },
 
   // Could this be made smarter? ie, detect components nested inside a <div>
