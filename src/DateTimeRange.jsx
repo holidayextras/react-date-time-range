@@ -18,6 +18,12 @@ var DateTimeRange = React.createClass({
     };
   },
 
+  getInitialState: function() {
+    return {
+      endDateShouldMoveAutomatically: (this.props.end === undefined)
+    };
+  },
+
   // Could this be made smarter? ie, detect components nested inside a <div>
   // inside this component, accept components based on an interface rather
   // than being of a certain type?
@@ -49,8 +55,16 @@ var DateTimeRange = React.createClass({
     };
   },
 
-  assumedEndDate: function(newDate) {
-    var endDate = new Date(newDate || this.props.start);
+  getEndDate: function(startDate) {
+    startDate = startDate || this.props.start;
+    if (this.state.endDateShouldMoveAutomatically || startDate > this.props.end) {
+      return this.assumedEndDate(startDate);
+    }
+    return this.props.end;
+  },
+
+  assumedEndDate: function(startDate) {
+    var endDate = new Date(startDate);
     endDate.setDate(endDate.getDate() + this.props.duration);
     return endDate;
   },
@@ -71,7 +85,7 @@ var DateTimeRange = React.createClass({
       if (child === startAndEnd.start) {
         return React.cloneElement(child, {
           onChange: function(newDate) {
-            self.props.onChange(newDate, self.assumedEndDate(newDate));
+            self.props.onChange(newDate, self.getEndDate(newDate));
           },
           value: self.props.start
         });
@@ -81,8 +95,11 @@ var DateTimeRange = React.createClass({
         return React.cloneElement(child, {
           onChange: function(newDate) {
             self.props.onChange(self.props.start, newDate);
+            self.setState({
+              endDateShouldMoveAutomatically: false
+            });
           },
-          value: ( self.props.start > self.props.end || self.props.end === undefined ) ? self.assumedEndDate() : self.props.end,
+          value: self.getEndDate(),
           dateStart: self.earliestDate(self.props.start, child.props.dateStart)
         });
       }
