@@ -1,6 +1,6 @@
 {
   "name": "react-date-time-range",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "",
   "main": "dist/DateTimeRange.js",
   "directories": {
