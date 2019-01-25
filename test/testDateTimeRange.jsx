@@ -1,14 +1,15 @@
 'use strict';
 
 var React = require('react');
-var TestUtils = require('react-addons-test-utils');
-
+var TestUtils = require('react-dom/test-utils');
 var expect = require('chai')
 .use(require('dirty-chai')).expect;
 
 var sinon = require('sinon');
 
-var { shallow, mount } = require('enzyme');
+var { shallow, mount, configure } = require('enzyme');
+var Adapter = require('enzyme-adapter-react-16');
+configure({ adapter: new Adapter() });
 
 describe('DateTimeRange', function() {
   var clock, DateTimeRange, DateTimeGroup;

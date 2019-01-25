@@ -1,36 +1,23 @@
 'use strict';
 
 var React = require('react');
+var PropTypes = require('prop-types');
 
-var DateTimeRange = React.createClass({
-  propTypes: {
-    start: React.PropTypes.instanceOf(Date),
-    end: React.PropTypes.instanceOf(Date),
-    duration: React.PropTypes.number,
-    onChange: React.PropTypes.func,
-    children: React.PropTypes.array
-  },
-
-  getDefaultProps: function() {
-    return {
-      duration: 10,
-      start: new Date()
-    };
-  },
-
-  getInitialState: function() {
-    return {
+class DateTimeRange extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       endDateShouldMoveAutomatically: (this.props.end === undefined)
     };
-  },
+  }
 
   // Could this be made smarter? ie, detect components nested inside a <div>
   // inside this component, accept components based on an interface rather
   // than being of a certain type?
-  identifyStartAndEndDateChildComponents: function() {
+  identifyStartAndEndDateChildComponents() {
     var rangeStartComponent, rangeEndComponent;
     React.Children.forEach(this.props.children, function(child) {
-      if (child.type.displayName === 'DateTimeGroup') {
+      if (child.type.name === 'DateTimeGroup') {
         if (!rangeStartComponent) {
           rangeStartComponent = child;
           return;
@@ -53,31 +40,31 @@ var DateTimeRange = React.createClass({
       start: rangeStartComponent,
       end: rangeEndComponent
     };
-  },
+  }
 
-  getEndDate: function(startDate) {
+  getEndDate(startDate) {
     startDate = startDate || this.props.start;
     if (this.state.endDateShouldMoveAutomatically || startDate > this.props.end) {
       return this.assumedEndDate(startDate);
     }
     return this.props.end;
-  },
+  }
 
-  assumedEndDate: function(startDate) {
+  assumedEndDate(startDate) {
     var endDate = new Date(startDate);
     endDate.setDate(endDate.getDate() + this.props.duration);
     return endDate;
-  },
+  }
 
-  earliestDate: function(dateOne, dateTwo) {
+  earliestDate(dateOne, dateTwo) {
     if (!dateTwo) {
       return dateOne;
     }
 
     return dateOne > dateTwo ? dateOne : dateTwo;
-  },
+  }
 
-  childrenWithAttachedBehaviour: function() {
+  childrenWithAttachedBehaviour() {
     var startAndEnd = this.identifyStartAndEndDateChildComponents();
     var self = this;
 
@@ -106,11 +93,24 @@ var DateTimeRange = React.createClass({
 
       return child;
     });
-  },
+  }
 
-  render: function() {
+  render() {
     return (<div>{this.childrenWithAttachedBehaviour()}</div>);
   }
-});
+}
+
+DateTimeRange.propTypes = {
+  start: PropTypes.instanceOf(Date),
+  end: PropTypes.instanceOf(Date),
+  duration: PropTypes.number,
+  onChange: PropTypes.func,
+  children: PropTypes.array
+};
+
+DateTimeRange.defaultProps = {
+  duration: 10,
+  start: new Date()
+};
 
 module.exports = DateTimeRange;
