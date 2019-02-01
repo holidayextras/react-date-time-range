@@ -5,9 +5,10 @@ var ReactDOM = require('react-dom');
 var DateTimeRange = require('../src/DateTimeRange.jsx');
 var DateTimeGroup = require('react-date-time-group');
 
-var Example = React.createClass({
-  getInitialState: function() {
-    return {
+class Example extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       firstRange: {
         start: new Date(),
         duration: 8
@@ -17,27 +18,29 @@ var Example = React.createClass({
         end: new Date(2015, 8, 20, 11, 15)
       }
     };
-  },
+    this.changeFirstExample = this.changeFirstExample.bind(this);
+    this.changeSecondExample = this.changeSecondExample.bind(this);
+  }
 
-  changeFirstExample: function(start, end) {
+  changeFirstExample(start, end) {
     this.setState({
       firstRange: {
         start: start,
         end: end
       }
     });
-  },
+  }
 
-  changeSecondExample: function(start, end) {
+  changeSecondExample(start, end) {
     this.setState({
       secondRange: {
         start: start,
         end: end
       }
     });
-  },
+  }
 
-  render: function() {
+  render() {
     return (
       <div className="container">
         <div className="jumbotron">
@@ -80,6 +83,6 @@ var Example = React.createClass({
       </div>
     );
   }
-});
+}
 
 ReactDOM.render(<Example />, document.getElementById('container'));
