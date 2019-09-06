@@ -17,7 +17,7 @@ class DateTimeRange extends React.Component {
   identifyStartAndEndDateChildComponents() {
     var rangeStartComponent, rangeEndComponent;
     React.Children.forEach(this.props.children, function(child) {
-      if (child.type.name === 'DateTimeGroup') {
+      if (child.type.displayName === 'DateTimeGroup') {
         if (!rangeStartComponent) {
           rangeStartComponent = child;
           return;
