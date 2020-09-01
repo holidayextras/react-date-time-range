@@ -22,7 +22,7 @@
     "insert-css": "~0.2.0",
     "prop-types": "^15.6.2",
     "react-date-time-group": "^5.0.1",
-    "serve": "^1.4.0"
+    "serve": "^11.3.2"
   },
   "peerDependencies": {
     "react": "^16.7.0",
